@@ -7,12 +7,16 @@ import cz.itnetwork.dto.mapper.PersonMapper;
 import cz.itnetwork.entity.InvoiceEntity;
 import cz.itnetwork.entity.InvoiceStatistics;
 import cz.itnetwork.entity.PersonEntity;
+import cz.itnetwork.entity.filter.InvoiceFilter;
 import cz.itnetwork.entity.repository.InvoiceRepository;
 import cz.itnetwork.entity.repository.PersonRepository;
+import cz.itnetwork.entity.repository.specification.InvoiceSpecification;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class InvoiceServiceImpl implements InvoiceService {
@@ -34,8 +38,6 @@ public class InvoiceServiceImpl implements InvoiceService {
     public InvoiceDTO addInvoice(InvoiceDTO invoice) {
         InvoiceEntity entity = invoiceMapper.toEntity(invoice);
         //následují vazby na osobu
-        //PersonEntity buyer = personRepository.findById(invoice.getBuyer().getId())   .orElseThrow();
-
         PersonEntity personEntity = personRepository.getReferenceById(invoice.getBuyer().getId());
         entity.setBuyer(personEntity);
         personEntity = personRepository.getReferenceById(invoice.getSeller().getId());
@@ -47,23 +49,19 @@ public class InvoiceServiceImpl implements InvoiceService {
 
 
     @Override
-    public List<InvoiceDTO> getAll() {
-   /*     return invoiceRepository.findAll().stream()
-                .map(item -> invoiceMapper.toDTO(item))
-                .toList();
-        */
-
-        List<InvoiceEntity> fetchedInvoiceEntities = invoiceRepository.findAll();
-        return invoiceMapper.toDTOs(fetchedInvoiceEntities);
+    public List<InvoiceDTO> getAll(InvoiceFilter invoiceFilter) {
+        InvoiceSpecification invoiceSpecification = new InvoiceSpecification(invoiceFilter);
+        return invoiceRepository.findAll(invoiceSpecification, PageRequest.of(0, invoiceFilter.getLimit()))
+                .stream()
+                .map(invoiceMapper::toDTO)
+                .collect(Collectors.toList());
     }
-
     @Override
     public InvoiceDTO getInvoiceDetail(long id) {
         InvoiceEntity invoiceEntity = invoiceRepository.getReferenceById(id);
 
         return invoiceMapper.toDTO(invoiceEntity);
     }
-
 
     @Override
     public InvoiceDTO updateInvoice(Long id, InvoiceDTO invoiceDTO) {
@@ -76,7 +74,6 @@ public class InvoiceServiceImpl implements InvoiceService {
         invoiceRepository.save(invoiceToUpdate);
         return invoiceMapper.toDTO(invoiceToUpdate);
     }
-
 
     @Override
     public InvoiceDTO removeInvoice(Long id) {

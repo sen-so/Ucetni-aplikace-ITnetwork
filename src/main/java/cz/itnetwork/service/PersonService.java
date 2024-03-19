@@ -31,16 +31,44 @@ public interface PersonService {
      */
     List<PersonDTO> getAll();
 
-
+    /**
+     * Fetches details about particular person
+     *
+     * @param id Person to show
+     * @return Selected person
+     */
     PersonDTO getPersonDetail(long id);
 
+    /**
+     * Updates particular person
+     *
+     * @param id ID of person to update
+     * @param personDTO Person
+     * @return Updated person
+     */
     PersonDTO updatePerson(long id,PersonDTO personDTO);
 
+    /**
+     * Fetches sales invoices of a customer based on his Identification N°
+     *
+     * @param identificationNumber Person's identification N°
+     * @return List of sales invoices
+     */
     List<InvoiceDTO> getSalesInvoices(String identificationNumber);
 
+    /**
+     * Fetches purchases invoices of a customer based on his Identification N°
+     *
+     * @param identificationNumber Person's identification N°
+     * @return List of sales invoices
+     */
     List<InvoiceDTO> getPurchasesInvoices(String identificationNumber);
 
-
+    /**
+     * Gets us statistics of stored person
+     *
+     * @return Custmers IDs, names and SUM of all their sales invoices
+     */
     List<PersonStatistics> getPersonStatistics();
 
 

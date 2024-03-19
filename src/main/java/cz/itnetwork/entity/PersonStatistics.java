@@ -11,5 +11,5 @@ public class PersonStatistics {
 
     private long personId;
     private String personName;
-     private double revenue;
+    private double revenue;
 }

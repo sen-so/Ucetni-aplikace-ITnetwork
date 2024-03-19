@@ -4,6 +4,7 @@ import cz.itnetwork.dto.InvoiceDTO;
 import cz.itnetwork.dto.PersonDTO;
 import cz.itnetwork.entity.InvoiceEntity;
 import cz.itnetwork.entity.InvoiceStatistics;
+import cz.itnetwork.entity.filter.InvoiceFilter;
 import cz.itnetwork.service.InvoiceService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,8 +30,8 @@ public class InvoiceController {
     }
 
     @GetMapping("/invoices")
-    public List<InvoiceDTO> getAll() {
-        return invoiceService.getAll();
+    public List<InvoiceDTO> getAll(InvoiceFilter invoiceFilter) {
+        return invoiceService.getAll(invoiceFilter);
     }
 
     @GetMapping("/invoices/{invoice_id}")

@@ -88,6 +88,7 @@ public class PersonServiceImpl implements PersonService {
 
     @Override
     public PersonDTO updatePerson(long id, PersonDTO personDTO) {
+        personDTO.setId(null);
         PersonEntity personToCreate = personMapper.toEntity(personDTO);
         personToCreate = personRepository.save(personToCreate);
 
@@ -145,19 +146,9 @@ public class PersonServiceImpl implements PersonService {
     */
     // region: Private methods
 
-
-    /*          List<InvoiceDTO> getSales(String idntfNumber){
+    /*      List<InvoiceDTO> getSales(String idntfNumber){
             List<PersonEntity> personEntities
-
-
-
-
-
      */
-
-
-
-
 
 
     /**
@@ -174,6 +165,12 @@ public class PersonServiceImpl implements PersonService {
     }
     // endregion
 
+    /**
+     * Fetches person(s) (even the deleted/"hidden" ones) by identificationNumber
+     *
+     * @param identificationNumber Person to fetch
+     * @return Choosen person
+     */
     private List<PersonEntity> fetchPersonByIdentificationNumber(String identificationNumber){
         return  personRepository.findByIdentificationNumber(identificationNumber)
                 ;

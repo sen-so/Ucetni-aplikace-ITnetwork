@@ -15,10 +15,13 @@ public class InvoiceEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long invoiceId;
+
     @Column(nullable = false)
-    private int invoiceNumber;
+    private int invoiceNumber; // 000240225
+
     @Column(nullable = false)
     private LocalDate issued;
+
     @Column(nullable = false)
     private LocalDate dueDate;
 
@@ -27,8 +30,10 @@ public class InvoiceEntity {
 
     @Column(nullable = false)
     private float price;
+
     @Column(nullable = false)
     private int vat;
+
     @Column
     private String note;
 
@@ -39,22 +44,4 @@ public class InvoiceEntity {
     private PersonEntity buyer;
     @ManyToOne
     private PersonEntity seller;
-
-/*
-    public Long getBuyer_id(){
-        if(this.buyer ==null)//Ošetření proti NULL pointeru
-            return null;
-        return this.buyer.getId();
-    }
-
-    public Long getSeller_id(){
-        if(this.seller ==null)//Ošetření proti NULL pointeru
-            return null;
-        return this.seller.getId();
-    }
-
-*/
-
-
-
 }

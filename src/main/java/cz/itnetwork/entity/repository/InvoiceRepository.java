@@ -4,11 +4,12 @@ import cz.itnetwork.entity.InvoiceEntity;
 import cz.itnetwork.entity.InvoiceStatistics;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 
-public interface InvoiceRepository extends JpaRepository<InvoiceEntity, Long> {
+public interface InvoiceRepository extends JpaRepository<InvoiceEntity, Long>, JpaSpecificationExecutor<InvoiceEntity> {
 
     @Query("""
             SELECT new cz.itnetwork.entity.InvoiceStatistics(
